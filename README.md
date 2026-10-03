@@ -18,6 +18,14 @@ Requires an **Apple Silicon Mac with macOS 15 or later**. Liquid Glass controls 
 2. Open Lilt. This early release uses a persistent self-signed certificate and **is not Apple-notarized**. If macOS blocks it, use **System Settings → Privacy & Security → Open Anyway** after attempting to open the app.
 3. Allow Lilt in **Screen & System Audio Recording** when you first capture. The setup guide gives you the app to drag into the list.
 
+Or install with Homebrew (the same first-launch approval applies):
+
+```sh
+brew tap theronburger/tap
+brew trust --cask theronburger/tap/lilt
+brew install --cask theronburger/tap/lilt
+```
+
 The speech runtime, model, and voice previews are included. No Python setup or account is needed to read locally. New versions arrive through **Check for Updates…** in the app, using signed Sparkle updates.
 
 ## Use it

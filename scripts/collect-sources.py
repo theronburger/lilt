@@ -39,7 +39,7 @@ with tarfile.open(output, 'w:gz') as archive:
     for item in items:
         archive.add(cache / item['file'], arcname=f"{name}/upstream/{item['file']}", filter=clean_metadata)
     archive.add(root / 'Resources/source-lock.json', arcname=f'{name}/SOURCE_MANIFEST.json', filter=clean_metadata)
-    source_files = [root / p for p in ['LICENSE', 'README.md', 'Package.swift', 'Package.resolved', 'VERSION', 'docs/LICENSING.md', 'docs/RELEASING.md', 'packaging/homebrew/lilt.rb.template']]
+    source_files = [root / p for p in ['LICENSE', 'README.md', 'Package.swift', 'Package.resolved', 'VERSION', 'docs/LICENSING.md', 'docs/RELEASING.md', 'docs/development.md', 'CONTRIBUTING.md', 'packaging/homebrew/lilt.rb.template']]
     for directory in ['Sources', 'Speech', 'Resources', 'scripts']:
         source_files.extend(p for p in (root / directory).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
     for path in sorted(set(source_files)):
