@@ -14,7 +14,7 @@ The Swift app starts a separate Python speech process. That helper uses these co
 
 The GPL/LGPL terms apply to the covered speech components and their combined distribution. Lilt’s original MIT files retain their notices and permissions; the MIT licence does not replace third-party terms. Other bundled packages retain their own licences, including their copyright notices and any exceptions.
 
-Open **About → Open all third-party notices** in Lilt for the collected texts. They are also in `Lilt.app/Contents/Resources/ThirdPartyNotices.txt` and `Licenses/`. Package versions are recorded in the release’s CycloneDX SBOM and [speech dependency lock](../Speech/requirements.lock).
+Open **About → Open all third-party notices** in Lilt for the collected texts. They are also in `Lilt.app/Contents/Resources/ThirdPartyNotices.txt` and `Licenses/`. Package versions are recorded in the release’s CycloneDX SBOM and [speech dependency lock](../Speech/requirements.txt).
 
 ## Source supplied with releases
 

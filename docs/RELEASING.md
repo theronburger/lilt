@@ -69,7 +69,7 @@ mode. It verifies no runtime path or symlink points outside the bundle.
 
 Python comes from a checksum-verified python-build-standalone archive;
 `Resources/runtime-lock.json` pins that download and the Kokoro model revision.
-`Speech/requirements.lock` pins Python dependencies. To update those, change the
+`Speech/requirements.txt` pins Python dependencies. To update those, change the
 pins, rebuild, run the audit and portable smoke check, and listen to representative
 speech samples. The runtime and model are release assets, never Git source files.
 

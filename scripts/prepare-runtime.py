@@ -16,7 +16,7 @@ runtime = directory / 'python'
 model = directory / 'Kokoro'
 stamp = directory / 'prepared.sha256'
 fingerprint = hashlib.sha256(b''.join((root / name).read_bytes() for name in
-    ['Resources/runtime-lock.json', 'Resources/source-lock.json', 'Speech/requirements.lock', 'Speech/voices.json', 'scripts/prepare-runtime.py', 'scripts/prepare-espeak.py'])).hexdigest()
+    ['Resources/runtime-lock.json', 'Resources/source-lock.json', 'Speech/requirements.txt', 'Speech/voices.json', 'scripts/prepare-runtime.py', 'scripts/prepare-espeak.py'])).hexdigest()
 if platform.machine() != 'arm64' or platform.system() != 'Darwin':
     raise SystemExit('The portable runtime currently supports Apple Silicon macOS only.')
 if stamp.exists() and stamp.read_text() == fingerprint:
@@ -33,7 +33,7 @@ shutil.rmtree(runtime, ignore_errors=True)
 with tarfile.open(archive) as source:
     source.extractall(directory, filter='data')
 python = runtime / 'bin/python3'
-subprocess.run(['uv', 'pip', 'install', '--python', str(python), '--no-deps', '-r', str(root / 'Speech/requirements.lock')], check=True)
+subprocess.run(['uv', 'pip', 'install', '--python', str(python), '--no-deps', '-r', str(root / 'Speech/requirements.txt')], check=True)
 subprocess.run(['uv', 'pip', 'check', '--python', str(python)], check=True)
 subprocess.run([str(python), str(root / 'scripts/prepare-espeak.py'), str(runtime)], check=True)
 model.mkdir(exist_ok=True)

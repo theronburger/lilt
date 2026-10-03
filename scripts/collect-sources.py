@@ -12,7 +12,7 @@ version = (root / 'VERSION').read_text().strip()
 if not re.fullmatch(r'\d+\.\d+\.\d+', version):
     raise SystemExit('Invalid release version')
 items = json.loads((root / 'Resources/source-lock.json').read_text())
-requirements = (root / 'Speech/requirements.lock').read_text()
+requirements = (root / 'Speech/requirements.txt').read_text()
 cache = root / 'work/source-downloads'
 cache.mkdir(parents=True, exist_ok=True)
 for item in items:
