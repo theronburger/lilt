@@ -47,6 +47,7 @@ jobs:
           scripts/ci.sh
           uvx --python 3.12 pip-audit==2.10.0 -r Speech/requirements.txt --no-deps --disable-pip
       - name: Import persistent release certificate
+        timeout-minutes: 2
         env:
           CERTIFICATE: ${{ secrets.LILT_CERTIFICATE_BASE64 }}
           CERTIFICATE_PASSWORD: ${{ secrets.LILT_CERTIFICATE_PASSWORD }}
@@ -59,17 +60,24 @@ jobs:
           signing_password=$(openssl rand -hex 24)
           echo "::add-mask::$signing_password"
           printf '%s' "$CERTIFICATE" | base64 -D > "$RUNNER_TEMP/lilt-release.p12"
+          echo 'Creating temporary signing keychain'
           security create-keychain -p "$signing_password" "$signing_keychain"
           security set-keychain-settings -lut 21600 "$signing_keychain"
+          echo 'Unlocking temporary signing keychain'
           security unlock-keychain -p "$signing_password" "$signing_keychain"
+          echo 'Importing release identity'
           security import "$RUNNER_TEMP/lilt-release.p12" -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign -f pkcs12 -k "$signing_keychain"
+          echo 'Reading public signing certificate'
           security find-certificate -c "$SIGNING_IDENTITY" -p "$signing_keychain" > "$RUNNER_TEMP/lilt-release.cer"
           subject=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -subject -nameopt RFC2253 | sed 's/^subject=//')
           issuer=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -issuer -nameopt RFC2253 | sed 's/^issuer=//')
           if [ "$subject" = "$issuer" ]; then
-            security add-trusted-cert -r trustRoot -p codeSign -k "$signing_keychain" "$RUNNER_TEMP/lilt-release.cer"
+            echo 'Trusting release certificate for code signing on this disposable runner'
+            sudo -n security add-trusted-cert -d -r trustRoot -p codeSign -k /Library/Keychains/System.keychain "$RUNNER_TEMP/lilt-release.cer"
           fi
+          echo 'Granting codesign access to release key'
           security set-key-partition-list -S apple-tool:,apple: -s -k "$signing_password" "$signing_keychain"
+          echo 'Selecting temporary signing keychain'
           security list-keychains -d user -s "$signing_keychain"
           printf 'SIGNING_IDENTITY=%s\n' "$SIGNING_IDENTITY" >> "$GITHUB_ENV"
           rm "$RUNNER_TEMP/lilt-release.p12" "$RUNNER_TEMP/lilt-release.cer"
