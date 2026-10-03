@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lilt · editable demo</title>
+<link rel="stylesheet" href="preview.css">
+</head>
+<body>
+<header><strong>Lilt demo</strong><span>Editable 1920 × 1080 presentation · real Kokoro audio</span></header>
+<main><canvas id="film" width="1920" height="1080" aria-label="Lilt demonstration: capture a region and listen with synchronized word highlights"></canvas></main>
+<nav aria-label="Video controls">
+<button id="play">Play</button><button id="restart">Restart</button>
+<input id="position" type="range" min="0" max="33" step="0.01" value="0" aria-label="Playback position">
+<output id="time">0:00</output>
+<button id="export">Export H.264</button><button id="poster">Save poster</button>
+</nav>
+<p id="status" role="status">Loading audio and timing data…</p>
+<a id="download" hidden>Download video</a>
+<audio id="audio" src="assets/soundtrack.wav" preload="auto"></audio>
+<script type="module" src="film.js"></script>
+</body></html>

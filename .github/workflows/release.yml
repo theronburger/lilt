@@ -1,0 +1,167 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing version tag to publish
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      release_tag:
+        required: true
+        type: string
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+jobs:
+  release:
+    name: Build and publish Apple Silicon app
+    runs-on: macos-26
+    environment: release
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.release_tag || github.ref }}
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: "0.12.23"
+      - name: Validate version and run tests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$RELEASE_TAG" = "v$(tr -d '[:space:]' < VERSION)"
+          latest=$(gh release list --limit 100 --json tagName,isLatest --jq '.[] | select(.isLatest) | .tagName')
+          if [ -n "$latest" ]; then
+            ruby -e 'require "rubygems"; abort("Refusing to replace a newer public release") if Gem::Version.new(ARGV[0].delete_prefix("v")) < Gem::Version.new(ARGV[1].delete_prefix("v"))' "$RELEASE_TAG" "$latest"
+          fi
+          scripts/ci.sh
+      - name: Import persistent release certificate
+        env:
+          CERTIFICATE: ${{ secrets.LILT_CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.LILT_CERTIFICATE_PASSWORD }}
+          SIGNING_IDENTITY: ${{ secrets.LILT_SIGNING_IDENTITY }}
+        run: |
+          test -n "$CERTIFICATE"
+          test -n "$CERTIFICATE_PASSWORD"
+          test -n "$SIGNING_IDENTITY"
+          signing_keychain="$RUNNER_TEMP/lilt-signing.keychain-db"
+          signing_password=$(openssl rand -hex 24)
+          echo "::add-mask::$signing_password"
+          printf '%s' "$CERTIFICATE" | base64 -D > "$RUNNER_TEMP/lilt-release.p12"
+          security create-keychain -p "$signing_password" "$signing_keychain"
+          security set-keychain-settings -lut 21600 "$signing_keychain"
+          security unlock-keychain -p "$signing_password" "$signing_keychain"
+          security import "$RUNNER_TEMP/lilt-release.p12" -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign -f pkcs12 -k "$signing_keychain"
+          openssl pkcs12 -in "$RUNNER_TEMP/lilt-release.p12" -clcerts -nokeys -passin env:CERTIFICATE_PASSWORD -out "$RUNNER_TEMP/lilt-release.cer"
+          subject=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -subject -nameopt RFC2253 | sed 's/^subject=//')
+          issuer=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -issuer -nameopt RFC2253 | sed 's/^issuer=//')
+          if [ "$subject" = "$issuer" ]; then
+            security add-trusted-cert -r trustRoot -p codeSign -k "$signing_keychain" "$RUNNER_TEMP/lilt-release.cer"
+          fi
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$signing_password" "$signing_keychain"
+          security list-keychains -d user -s "$signing_keychain"
+          printf 'SIGNING_IDENTITY=%s\n' "$SIGNING_IDENTITY" >> "$GITHUB_ENV"
+          rm "$RUNNER_TEMP/lilt-release.p12" "$RUNNER_TEMP/lilt-release.cer"
+      - name: Build and verify portable app
+        run: scripts/build-release.sh
+      - name: Notarize when Developer ID is configured
+        env:
+          NOTARY_PRIVATE_KEY: ${{ secrets.NOTARY_PRIVATE_KEY }}
+          NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
+        run: |
+          if [ -z "$NOTARY_PRIVATE_KEY" ]; then
+            echo "This release is certificate-signed but not Apple-notarized."
+            exit 0
+          fi
+          codesign --verify '-R=anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.13] exists' dist/Lilt.app
+          key="$RUNNER_TEMP/AuthKey_$NOTARY_KEY_ID.p8"
+          printf '%s' "$NOTARY_PRIVATE_KEY" > "$key"
+          chmod 600 "$key"
+          trap 'rm -f "$key"' EXIT
+          archive="dist/lilt_$(tr -d '[:space:]' < VERSION)_macos_arm64.zip"
+          xcrun notarytool submit "$archive" --key "$key" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER_ID" --wait
+          xcrun stapler staple dist/Lilt.app
+          ditto -c -k --sequesterRsrc --keepParent dist/Lilt.app "$archive"
+      - name: Sign Sparkle feed and checksums
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          test -n "$SPARKLE_PRIVATE_KEY"
+          expected=$(tr -d '[:space:]' < Resources/SparklePublicKey.txt)
+          actual=$(printf '%s' "$SPARKLE_PRIVATE_KEY" | swift scripts/derive-sparkle-public-key.swift)
+          test "$actual" = "$expected"
+          printf '%s' "$SPARKLE_PRIVATE_KEY" | .build/artifacts/sparkle/Sparkle/bin/generate_appcast \
+            --ed-key-file - \
+            --download-url-prefix "https://github.com/theronburger/lilt/releases/download/$RELEASE_TAG/" \
+            --link 'https://github.com/theronburger/lilt' \
+            --full-release-notes-url "https://github.com/theronburger/lilt/releases/tag/$RELEASE_TAG" \
+            -o dist/appcast.xml dist
+          xmllint --noout dist/appcast.xml
+          grep -Fq '<!-- sparkle-signatures:' dist/appcast.xml
+          grep -Fq 'sparkle:edSignature=' dist/appcast.xml
+          python3 scripts/collect-sources.py
+          (cd dist && shasum -a 256 *.zip *.tar.gz *.sbom.cdx.json appcast.xml > checksums.txt)
+      - name: Attest release artifacts
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: |
+            dist/*.zip
+            dist/*.tar.gz
+            dist/*.sbom.cdx.json
+            dist/appcast.xml
+            dist/checksums.txt
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/*.zip dist/*.tar.gz dist/*.sbom.cdx.json dist/appcast.xml dist/checksums.txt --clobber
+            gh release edit "$RELEASE_TAG" --draft=false --latest --verify-tag --title "Lilt $(tr -d '[:space:]' < VERSION)"
+          else
+            gh release create "$RELEASE_TAG" dist/*.zip dist/*.tar.gz dist/*.sbom.cdx.json dist/appcast.xml dist/checksums.txt \
+              --verify-tag --generate-notes --title "Lilt $(tr -d '[:space:]' < VERSION)"
+          fi
+      - name: Update Homebrew Cask
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HOMEBREW_TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          test -n "$HOMEBREW_TAP_DEPLOY_KEY"
+          version=$(tr -d '[:space:]' < VERSION)
+          archive="dist/lilt_${version}_macos_arm64.zip"
+          archive_sha=$(shasum -a 256 "$archive" | awk '{print $1}')
+          deploy_key="$RUNNER_TEMP/homebrew-tap-deploy-key"
+          known_hosts="$RUNNER_TEMP/github-known-hosts"
+          printf '%s\n' "$HOMEBREW_TAP_DEPLOY_KEY" > "$deploy_key"
+          chmod 600 "$deploy_key"
+          trap 'rm -f "$deploy_key"' EXIT
+          gh api meta --jq '.ssh_keys[] | "github.com " + .' > "$known_hosts"
+          export GIT_SSH_COMMAND="ssh -i $deploy_key -o IdentitiesOnly=yes -o UserKnownHostsFile=$known_hosts"
+          tap_directory="$RUNNER_TEMP/homebrew-tap"
+          git clone git@github.com:theronburger/homebrew-tap.git "$tap_directory"
+          mkdir -p "$tap_directory/Casks"
+          current_version=$(sed -n 's/^  version "\([^"]*\)"/\1/p' "$tap_directory/Casks/lilt.rb" 2>/dev/null || true)
+          if [ -n "$current_version" ]; then
+            ruby -e 'require "rubygems"; exit(Gem::Version.new(ARGV[0]) >= Gem::Version.new(ARGV[1]) ? 0 : 1)' "$version" "$current_version"
+          fi
+          scripts/render-homebrew-cask.sh "$version" "$archive_sha" > "$tap_directory/Casks/lilt.rb"
+          git -C "$tap_directory" config user.name 'Lilt Release'
+          git -C "$tap_directory" config user.email 'lilt-release@users.noreply.github.com'
+          git -C "$tap_directory" add Casks/lilt.rb
+          if git -C "$tap_directory" diff --cached --quiet; then exit 0; fi
+          git -C "$tap_directory" commit -m "Update Lilt to $version"
+          git -C "$tap_directory" push origin HEAD:main
+      - name: Remove signing keychain
+        if: always()
+        run: security delete-keychain "$RUNNER_TEMP/lilt-signing.keychain-db" || true

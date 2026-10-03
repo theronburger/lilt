@@ -1,0 +1,30 @@
+[
+  {
+    "name": "phonemizer-fork",
+    "version": "3.3.2",
+    "file": "phonemizer_fork-3.3.2.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/42/fa/9294d2f11890ca49d0bdac7a4da60cbe5686629bfd4987cae0ad75e051cc/phonemizer_fork-3.3.2.tar.gz",
+    "sha256": "10e16e827d0443b087062e21b55e805c00989cf1343b2e81e734cae5f6c0cf69"
+  },
+  {
+    "name": "num2words",
+    "version": "0.5.14",
+    "file": "num2words-0.5.14.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/f6/58/ad645bd38b4b648eb2fc2ba1b909398e54eb0cbb6a7dbd2b4953e38c9621/num2words-0.5.14.tar.gz",
+    "sha256": "b066ec18e56b6616a3b38086b5747daafbaa8868b226a36127e0451c0cf379c6"
+  },
+  {
+    "name": "espeakng-loader",
+    "version": "0.2.4",
+    "file": "espeakng-loader-0.2.4.tar.gz",
+    "url": "https://codeload.github.com/thewh1teagle/espeakng-loader/tar.gz/146599e29be31bf17d99f0bcb7dbb2f92aef3d95",
+    "sha256": "d6496114cd0608988f5291f54d2d15b50cb37b7f007af00bb62cf93be1b3ceca"
+  },
+  {
+    "name": "espeak-ng",
+    "version": "1.52.0",
+    "file": "espeak-ng-1.52.0.tar.gz",
+    "url": "https://codeload.github.com/espeak-ng/espeak-ng/tar.gz/4870adfa25b1a32b4361592f1be8a40337c58d6c",
+    "sha256": "cd83f84c4e495f281ac14e919aecf2834306ec1ea1b498de8ef6000f3a0f90de"
+  }
+]

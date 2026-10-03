@@ -1,0 +1,7 @@
+{
+  "python_version": "3.12.14",
+  "python_url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260814/cpython-3.12.14%2B20260814-aarch64-apple-darwin-install_only_stripped.tar.gz",
+  "python_sha256": "dd5b76ab11451a4a4367c17c61d944dded56b425396b07f102922a7ebef7d55f",
+  "model_repository": "hexgrad/Kokoro-82M",
+  "model_revision": "f3ff3571791e39611d31c381e3a41a3af07b4987"
+}

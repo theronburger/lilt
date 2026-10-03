@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lilt.theronburger.workers.dev/sitemap.xml

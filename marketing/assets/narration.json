@@ -1,0 +1,392 @@
+{
+  "voice": "af_heart",
+  "prompt": "How am I going to get all of this into my head?",
+  "reply": "Try Lilt.",
+  "title": "A quick note on reading",
+  "text": "You can select text anywhere on your screen. Lilt keeps the original layout and reads it aloud, highlighting each word as it goes. Click a word to jump to that part. The controls appear when you move your pointer over the reading, and disappear when you move away.",
+  "endTitle": "Listen to what\u2019s on your screen.",
+  "endDetail": "Lilt for macOS \u00b7 Free and open source",
+  "clips": {
+    "reply": {
+      "voice": "af_heart",
+      "durationMs": 1500.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 3,
+          "startMs": 350.0,
+          "endMs": 575.0
+        },
+        {
+          "charIndex": 4,
+          "charLength": 4,
+          "startMs": 575.0,
+          "endMs": 1225.0
+        },
+        {
+          "charIndex": 8,
+          "charLength": 1,
+          "startMs": 1225.0,
+          "endMs": 1400.0
+        }
+      ]
+    },
+    "text": {
+      "voice": "af_heart",
+      "durationMs": 15825.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 3,
+          "startMs": 275.0,
+          "endMs": 375.0
+        },
+        {
+          "charIndex": 4,
+          "charLength": 3,
+          "startMs": 375.0,
+          "endMs": 525.0
+        },
+        {
+          "charIndex": 8,
+          "charLength": 6,
+          "startMs": 525.0,
+          "endMs": 912.5
+        },
+        {
+          "charIndex": 15,
+          "charLength": 4,
+          "startMs": 912.5,
+          "endMs": 1312.5
+        },
+        {
+          "charIndex": 20,
+          "charLength": 8,
+          "startMs": 1312.5,
+          "endMs": 1787.5
+        },
+        {
+          "charIndex": 29,
+          "charLength": 2,
+          "startMs": 1787.5,
+          "endMs": 1887.5
+        },
+        {
+          "charIndex": 32,
+          "charLength": 4,
+          "startMs": 1887.5,
+          "endMs": 2000.0
+        },
+        {
+          "charIndex": 37,
+          "charLength": 6,
+          "startMs": 2000.0,
+          "endMs": 2825.0
+        },
+        {
+          "charIndex": 43,
+          "charLength": 1,
+          "startMs": 2825.0,
+          "endMs": 3000.0
+        },
+        {
+          "charIndex": 45,
+          "charLength": 4,
+          "startMs": 3000.0,
+          "endMs": 3337.5
+        },
+        {
+          "charIndex": 50,
+          "charLength": 5,
+          "startMs": 3337.5,
+          "endMs": 3650.0
+        },
+        {
+          "charIndex": 56,
+          "charLength": 3,
+          "startMs": 3650.0,
+          "endMs": 3775.0
+        },
+        {
+          "charIndex": 60,
+          "charLength": 8,
+          "startMs": 3775.0,
+          "endMs": 4200.0
+        },
+        {
+          "charIndex": 69,
+          "charLength": 6,
+          "startMs": 4200.0,
+          "endMs": 4762.5
+        },
+        {
+          "charIndex": 76,
+          "charLength": 3,
+          "startMs": 4762.5,
+          "endMs": 4937.5
+        },
+        {
+          "charIndex": 80,
+          "charLength": 5,
+          "startMs": 4937.5,
+          "endMs": 5212.5
+        },
+        {
+          "charIndex": 86,
+          "charLength": 2,
+          "startMs": 5212.5,
+          "endMs": 5300.0
+        },
+        {
+          "charIndex": 89,
+          "charLength": 5,
+          "startMs": 5300.0,
+          "endMs": 5925.0
+        },
+        {
+          "charIndex": 94,
+          "charLength": 1,
+          "startMs": 5925.0,
+          "endMs": 6037.5
+        },
+        {
+          "charIndex": 96,
+          "charLength": 12,
+          "startMs": 6037.5,
+          "endMs": 6600.0
+        },
+        {
+          "charIndex": 109,
+          "charLength": 4,
+          "startMs": 6600.0,
+          "endMs": 6875.0
+        },
+        {
+          "charIndex": 114,
+          "charLength": 4,
+          "startMs": 6875.0,
+          "endMs": 7200.0
+        },
+        {
+          "charIndex": 119,
+          "charLength": 2,
+          "startMs": 7200.0,
+          "endMs": 7325.0
+        },
+        {
+          "charIndex": 122,
+          "charLength": 2,
+          "startMs": 7325.0,
+          "endMs": 7425.0
+        },
+        {
+          "charIndex": 125,
+          "charLength": 4,
+          "startMs": 7425.0,
+          "endMs": 8275.0
+        },
+        {
+          "charIndex": 129,
+          "charLength": 1,
+          "startMs": 8275.0,
+          "endMs": 8437.5
+        },
+        {
+          "charIndex": 131,
+          "charLength": 5,
+          "startMs": 8437.5,
+          "endMs": 8662.5
+        },
+        {
+          "charIndex": 137,
+          "charLength": 1,
+          "startMs": 8662.5,
+          "endMs": 8750.0
+        },
+        {
+          "charIndex": 139,
+          "charLength": 4,
+          "startMs": 8750.0,
+          "endMs": 9025.0
+        },
+        {
+          "charIndex": 144,
+          "charLength": 2,
+          "startMs": 9025.0,
+          "endMs": 9162.5
+        },
+        {
+          "charIndex": 147,
+          "charLength": 4,
+          "startMs": 9162.5,
+          "endMs": 9475.0
+        },
+        {
+          "charIndex": 152,
+          "charLength": 2,
+          "startMs": 9475.0,
+          "endMs": 9575.0
+        },
+        {
+          "charIndex": 155,
+          "charLength": 4,
+          "startMs": 9575.0,
+          "endMs": 9800.0
+        },
+        {
+          "charIndex": 160,
+          "charLength": 4,
+          "startMs": 9800.0,
+          "endMs": 10450.0
+        },
+        {
+          "charIndex": 164,
+          "charLength": 1,
+          "startMs": 10450.0,
+          "endMs": 10575.0
+        },
+        {
+          "charIndex": 166,
+          "charLength": 3,
+          "startMs": 10575.0,
+          "endMs": 10675.0
+        },
+        {
+          "charIndex": 170,
+          "charLength": 8,
+          "startMs": 10675.0,
+          "endMs": 11225.0
+        },
+        {
+          "charIndex": 179,
+          "charLength": 6,
+          "startMs": 11225.0,
+          "endMs": 11650.0
+        },
+        {
+          "charIndex": 186,
+          "charLength": 4,
+          "startMs": 11650.0,
+          "endMs": 11800.0
+        },
+        {
+          "charIndex": 191,
+          "charLength": 3,
+          "startMs": 11800.0,
+          "endMs": 11925.0
+        },
+        {
+          "charIndex": 195,
+          "charLength": 4,
+          "startMs": 11925.0,
+          "endMs": 12112.5
+        },
+        {
+          "charIndex": 200,
+          "charLength": 4,
+          "startMs": 12112.5,
+          "endMs": 12225.0
+        },
+        {
+          "charIndex": 205,
+          "charLength": 7,
+          "startMs": 12225.0,
+          "endMs": 12650.0
+        },
+        {
+          "charIndex": 213,
+          "charLength": 4,
+          "startMs": 12650.0,
+          "endMs": 12862.5
+        },
+        {
+          "charIndex": 218,
+          "charLength": 3,
+          "startMs": 12862.5,
+          "endMs": 12950.0
+        },
+        {
+          "charIndex": 222,
+          "charLength": 7,
+          "startMs": 12950.0,
+          "endMs": 13550.0
+        },
+        {
+          "charIndex": 229,
+          "charLength": 1,
+          "startMs": 13550.0,
+          "endMs": 13662.5
+        },
+        {
+          "charIndex": 231,
+          "charLength": 3,
+          "startMs": 13662.5,
+          "endMs": 13800.0
+        },
+        {
+          "charIndex": 235,
+          "charLength": 9,
+          "startMs": 13800.0,
+          "endMs": 14400.0
+        },
+        {
+          "charIndex": 245,
+          "charLength": 4,
+          "startMs": 14400.0,
+          "endMs": 14550.0
+        },
+        {
+          "charIndex": 250,
+          "charLength": 3,
+          "startMs": 14550.0,
+          "endMs": 14675.0
+        },
+        {
+          "charIndex": 254,
+          "charLength": 4,
+          "startMs": 14675.0,
+          "endMs": 14900.0
+        },
+        {
+          "charIndex": 259,
+          "charLength": 4,
+          "startMs": 14900.0,
+          "endMs": 15575.0
+        },
+        {
+          "charIndex": 263,
+          "charLength": 1,
+          "startMs": 15575.0,
+          "endMs": 15725.0
+        }
+      ]
+    }
+  },
+  "readingStart": 14000,
+  "firstEnd": 8275.0,
+  "seekAt": 23575.0,
+  "seekOffset": 10575.0,
+  "readingEnd": 28825.0,
+  "endStart": 29425.0,
+  "durationMs": 33025.0,
+  "segments": [
+    {
+      "clip": "reply",
+      "at": 8800,
+      "from": 0,
+      "to": 1500.0
+    },
+    {
+      "clip": "text",
+      "at": 14000,
+      "from": 0,
+      "to": 8275.0
+    },
+    {
+      "clip": "text",
+      "at": 23575.0,
+      "from": 10575.0,
+      "to": 15825.0
+    }
+  ]
+}
