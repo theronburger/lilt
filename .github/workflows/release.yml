@@ -63,7 +63,7 @@ jobs:
           security set-keychain-settings -lut 21600 "$signing_keychain"
           security unlock-keychain -p "$signing_password" "$signing_keychain"
           security import "$RUNNER_TEMP/lilt-release.p12" -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign -f pkcs12 -k "$signing_keychain"
-          openssl pkcs12 -in "$RUNNER_TEMP/lilt-release.p12" -clcerts -nokeys -passin env:CERTIFICATE_PASSWORD -out "$RUNNER_TEMP/lilt-release.cer"
+          security find-certificate -c "$SIGNING_IDENTITY" -p "$signing_keychain" > "$RUNNER_TEMP/lilt-release.cer"
           subject=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -subject -nameopt RFC2253 | sed 's/^subject=//')
           issuer=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -issuer -nameopt RFC2253 | sed 's/^issuer=//')
           if [ "$subject" = "$issuer" ]; then
