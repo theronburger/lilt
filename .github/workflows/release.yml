@@ -45,6 +45,7 @@ jobs:
             ruby -e 'require "rubygems"; abort("Refusing to replace a newer public release") if Gem::Version.new(ARGV[0].delete_prefix("v")) < Gem::Version.new(ARGV[1].delete_prefix("v"))' "$RELEASE_TAG" "$latest"
           fi
           scripts/ci.sh
+          uvx --python 3.12 pip-audit==2.10.0 -r Speech/requirements.txt --no-deps --disable-pip
       - name: Import persistent release certificate
         env:
           CERTIFICATE: ${{ secrets.LILT_CERTIFICATE_BASE64 }}
@@ -62,7 +63,7 @@ jobs:
           security set-keychain-settings -lut 21600 "$signing_keychain"
           security unlock-keychain -p "$signing_password" "$signing_keychain"
           security import "$RUNNER_TEMP/lilt-release.p12" -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign -f pkcs12 -k "$signing_keychain"
-          openssl pkcs12 -in "$RUNNER_TEMP/lilt-release.p12" -clcerts -nokeys -passin env:CERTIFICATE_PASSWORD -out "$RUNNER_TEMP/lilt-release.cer"
+          security find-certificate -c "$SIGNING_IDENTITY" -p "$signing_keychain" > "$RUNNER_TEMP/lilt-release.cer"
           subject=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -subject -nameopt RFC2253 | sed 's/^subject=//')
           issuer=$(openssl x509 -in "$RUNNER_TEMP/lilt-release.cer" -noout -issuer -nameopt RFC2253 | sed 's/^issuer=//')
           if [ "$subject" = "$issuer" ]; then
@@ -111,7 +112,7 @@ jobs:
           grep -Fq '<!-- sparkle-signatures:' dist/appcast.xml
           grep -Fq 'sparkle:edSignature=' dist/appcast.xml
           python3 scripts/collect-sources.py
-          (cd dist && shasum -a 256 *.zip *.tar.gz *.sbom.cdx.json appcast.xml > checksums.txt)
+          (cd dist && shasum -a 256 ./*.zip ./*.tar.gz ./*.sbom.cdx.json appcast.xml > checksums.txt)
       - name: Attest release artifacts
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:

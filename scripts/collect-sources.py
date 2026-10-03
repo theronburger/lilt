@@ -12,7 +12,7 @@ version = (root / 'VERSION').read_text().strip()
 if not re.fullmatch(r'\d+\.\d+\.\d+', version):
     raise SystemExit('Invalid release version')
 items = json.loads((root / 'Resources/source-lock.json').read_text())
-requirements = (root / 'Speech/requirements.lock').read_text()
+requirements = (root / 'Speech/requirements.txt').read_text()
 cache = root / 'work/source-downloads'
 cache.mkdir(parents=True, exist_ok=True)
 for item in items:
@@ -39,7 +39,7 @@ with tarfile.open(output, 'w:gz') as archive:
     for item in items:
         archive.add(cache / item['file'], arcname=f"{name}/upstream/{item['file']}", filter=clean_metadata)
     archive.add(root / 'Resources/source-lock.json', arcname=f'{name}/SOURCE_MANIFEST.json', filter=clean_metadata)
-    source_files = [root / p for p in ['LICENSE', 'README.md', 'Package.swift', 'Package.resolved', 'VERSION', 'docs/LICENSING.md', 'docs/RELEASING.md', 'packaging/homebrew/lilt.rb.template']]
+    source_files = [root / p for p in ['LICENSE', 'README.md', 'Package.swift', 'Package.resolved', 'VERSION', 'docs/LICENSING.md', 'docs/RELEASING.md', 'docs/development.md', 'CONTRIBUTING.md', 'packaging/homebrew/lilt.rb.template']]
     for directory in ['Sources', 'Speech', 'Resources', 'scripts']:
         source_files.extend(p for p in (root / directory).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
     for path in sorted(set(source_files)):
