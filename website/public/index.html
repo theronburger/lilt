@@ -18,7 +18,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
-  <script src="/site.js" defer></script>
+  <link rel="stylesheet" href="/demo.css">
+  <script src="/site.js" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -31,26 +32,43 @@
     </nav>
   </header>
   <main id="main">
-    <section class="hero wrap" aria-labelledby="hero-title">
-      <p class="eyebrow"><span class="status-dot"></span> For your Mac · Free &amp; open source</p>
-      <h1 id="hero-title">Listen to what’s <br>on your screen.</h1>
-      <p class="hero-description">Select some text. Lilt reads it aloud and highlights<br class="desktop-break"> each word on the original screenshot.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="#get-lilt"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m-4-4 4 4 4-4M4 14v3h12v-3"/></svg> Get Lilt for Mac</a>
-        <button class="button text-button" type="button" data-play-demo><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z"/></svg> Watch it work</button>
-      </div>
-      <p class="system-note">Apple Silicon · macOS 15 or later</p>
-      <figure class="demo" id="demo">
-        <div class="demo-topline"><span><span class="tiny-mark"></span> A quick look at Lilt</span><span>Sound on</span></div>
-        <div class="video-wrap">
-          <video id="demo-video" controls playsinline preload="none" poster="/assets/lilt-demo-poster.webp" aria-label="Lilt demo: select a passage, listen with word highlighting, then click a word to jump ahead" aria-describedby="demo-description">
-            <source src="/assets/lilt-demo.mp4" type="video/mp4">
-            <track kind="captions" src="/assets/demo-captions.vtt" srclang="en" label="English">
-            <p>Your browser doesn’t support this video. <a href="/assets/lilt-demo.mp4">Download the demo</a>.</p>
-          </video>
+    <section class="live-hero wrap" aria-labelledby="hero-title">
+      <div class="hero-heading"><h1 id="hero-title">Listen to what’s on your screen.</h1><p>Free &amp; open source. For your Mac.</p></div>
+      <div class="live-demo" id="demo" data-phase="static">
+        <div class="document-pile" aria-hidden="true">
+          <article class="pile-card email-card"><div class="document-label">Inbox <span>12 unread</span></div><h3>A few things before Monday</h3><p>Hey everyone,</p><p>I’ve pulled together the notes from this week. There are a few decisions still to make, so I’ve added some context below.</p><p>First, the launch. We’ve been looking at the feedback and there are a couple of things worth discussing before we go ahead.</p><div class="text-lines"></div></article>
+          <article class="pile-card notes-card"><div class="document-label">Notes <span>Just updated</span></div><h3>One more thing…</h3><p>Following on from the earlier discussion, here’s the longer version. The short answer is yes, but there are a few details.</p><div class="text-lines"></div><p>We should also consider how this changes the plan for next week.</p></article>
+          <article class="pile-card response-card"><div class="document-label">A response <span>2 min read</span></div><p>Let’s work through this step by step.</p><p>There are three parts to the problem. The first is fairly straightforward. The second needs a little more context.</p><div class="text-lines"></div></article>
         </div>
-        <figcaption id="demo-description">Capture a passage, listen along, and click a word to pick up from there. <a href="#demo-transcript">Read the demo transcript</a></figcaption>
-      </figure>
+        <div class="reader-position">
+          <div class="source-label" aria-hidden="true"><span class="window-dots">● ● ●</span> A quick note on reading</div>
+          <div class="reading-window" id="reading-window" tabindex="-1" aria-label="Sample passage">
+            <p id="reading-text">You can select text anywhere on your screen. Lilt keeps the original layout and reads it aloud, highlighting each word as it goes. Click a word to jump to that part. The controls appear when you move your pointer over the reading, and disappear when you move away.</p>
+            <span class="selection-outline" aria-hidden="true"></span>
+          </div>
+          <div class="reader-controls" id="reader-controls" hidden>
+            <button id="play-reading" type="button" aria-label="Play reading"><svg class="play-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 11 7-11 7Z"/></svg><svg class="pause-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg></button>
+            <input id="reading-progress" type="range" min="0" max="15.825" value="0" step="0.01" aria-label="Reading position">
+            <label class="speed-control"><span class="visually-hidden">Playback speed</span><select id="reading-speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+            <button id="reading-sound" type="button" aria-label="Mute reading" aria-pressed="false"><svg class="sound-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 6H4v8h4l4 3V3Zm7 0a6 6 0 0 1 0 8"/></svg><svg class="muted-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 6H4v8h4l4 3V3Zm7 2 4 4m0-4-4 4"/></svg></button>
+          </div>
+          <p class="reader-hint" id="reader-hint" hidden>Click any word to jump there.</p>
+          <p class="reader-status" id="reader-status" role="status"></p>
+        </div>
+        <div class="demo-chat" id="demo-chat" hidden>
+          <div class="chat-message user-message"><span class="chat-speaker">You</span><p>How am I going to get all of this into my head?</p></div>
+          <div class="chat-message agent-message"><img src="/assets/lilt-mark.svg" width="24" height="24" alt=""><p>Try Lilt. Turn your sound on<br class="desktop-break"> and I’ll show you.</p></div>
+          <form id="sound-confirmation" aria-label="Start the narrated demo">
+            <p>OK, it’s on</p><button type="submit" aria-label="Send and start demo with sound" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4m-5 5 5-5 5 5"/></svg></button>
+          </form>
+          <button class="quiet-button" id="start-silent" type="button" disabled>Continue without sound</button>
+          <p class="demo-load-status" id="demo-load-status" role="status"></p>
+        </div>
+        <audio id="reading-audio" data-src="/assets/demo-reading.m4a" preload="auto"></audio>
+      </div>
+      <div class="demo-footer"><span id="demo-caption">A short, interactive demo. Sound starts when you’re ready.</span><button class="quiet-button" id="replay-intro" type="button" hidden>Start again <span aria-hidden="true">↺</span></button></div>
+      <noscript><p class="no-script-note">This interactive demo needs JavaScript. <a href="/assets/lilt-demo.mp4">Watch the recorded demo</a> instead.</p></noscript>
+      <div class="hero-download"><a class="button primary" href="#get-lilt">Get Lilt for Mac <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m-4-4 4 4 4-4M4 14v3h12v-3"/></svg></a><span>Apple Silicon · macOS 15 or later</span></div>
     </section>
 
     <section class="workflow wrap" id="how-it-works" aria-labelledby="workflow-title">
@@ -97,7 +115,7 @@
         <details><summary>Which languages does it support?</summary><p>The current version supports English, with American and British voices. Other languages aren’t ready yet.</p></details>
         <details><summary>Can I change the shortcut?</summary><p>Yes. The defaults are Shift–Command–L to capture and Option–Command–L to read the clipboard. Open Settings to record your own shortcuts.</p></details>
         <details><summary>Where can I report a problem or help out?</summary><p>Lilt is a new app, and there’s still work to do. <a href="https://github.com/theronburger/lilt/issues">Open an issue on GitHub</a> with what happened and your macOS version. Code, small fixes, and useful feedback are welcome.</p></details>
-        <details id="demo-transcript"><summary>Demo transcript</summary><div id="transcript-content"><p>A pile of documents and chat responses arrives on screen. A message asks, “How am I going to get all of this into my head?” The reply: “Try Lilt.”</p><p>A passage is selected. Lilt reads: “You can select text anywhere on your screen. Lilt keeps the original layout and reads it aloud, highlighting each word as it goes.”</p><p>The pointer clicks a later word, skipping ahead in the passage. Lilt continues: “The controls appear when you move your pointer over the reading, and disappear when you move away.” The demo finishes with a link to the free macOS app.</p></div></details>
+        <details id="demo-transcript"><summary>What’s in the demo?</summary><div id="transcript-content"><p>A pile of documents arrives. A chat asks, “How am I going to get all of this into my head?” The reply: “Try Lilt. Turn your sound on and I’ll show you.” Send the prefilled reply when you’re ready, or continue without sound.</p><p>The sample passage reads: “You can select text anywhere on your screen. Lilt keeps the original layout and reads it aloud, highlighting each word as it goes. Click a word to jump to that part. The controls appear when you move your pointer over the reading, and disappear when you move away.”</p><p>This is a prepared example with a Kokoro voice. Try the playback controls or click a word to hear it from there. The demo doesn’t capture your screen.</p><a href="/assets/lilt-demo.mp4">Watch the recorded version</a></div></details>
       </div>
     </section>
   </main>

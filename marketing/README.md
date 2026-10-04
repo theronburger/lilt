@@ -1,6 +1,6 @@
 # Lilt demo film
 
-The editable web app behind the README and website video. It runs without a bundler or JavaScript dependencies.
+The editable web app behind the README film and the website’s linked recorded demo. The website also reuses its original speech and word timings for a live interactive sample. This editor runs without a bundler or JavaScript dependencies.
 
 The 33-second film follows the same basic setup as [Review Story’s demo](https://github.com/theronburger/review-story/tree/main/examples/checkout): too much text, a short chat, then the product. This is a new illustrated demo of Lilt, not a recording of someone’s desktop. All documents and dialogue are original public demo content. The audio is the real local Kokoro engine used by Lilt; every spoken highlight uses Kokoro’s measured word timings.
 
@@ -50,6 +50,6 @@ Outputs:
 - `output/lilt-demo.mp4`: full narrated 1080p film; published as a release asset and on the website, not stored in Git.
 - `output/lilt-demo-poster.webp`: static cover.
 - `output/lilt-demo.gif`: small silent capture/highlighting preview for the README.
-- `output/lilt-demo.vtt`: spoken captions for the website player.
+- `output/lilt-demo.vtt`: spoken captions for the recorded film.
 
 The generated speech files in `assets/` are public marketing material, explicitly included so anyone can reproduce the export without installing the speech model. They contain no user captures or reading history.

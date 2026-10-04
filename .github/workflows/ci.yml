@@ -12,6 +12,13 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  website:
+    name: Website checks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: npm --prefix website run check
+      - run: npm --prefix website test
   test:
     name: Swift and speech tests
     runs-on: macos-26

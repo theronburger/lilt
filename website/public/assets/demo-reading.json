@@ -1,0 +1,246 @@
+{
+  "text": "You can select text anywhere on your screen. Lilt keeps the original layout and reads it aloud, highlighting each word as it goes. Click a word to jump to that part. The controls appear when you move your pointer over the reading, and disappear when you move away.",
+  "duration": 15.825,
+  "words": [
+    {
+      "text": "You",
+      "start": 0.275,
+      "end": 0.375
+    },
+    {
+      "text": "can",
+      "start": 0.375,
+      "end": 0.525
+    },
+    {
+      "text": "select",
+      "start": 0.525,
+      "end": 0.9125
+    },
+    {
+      "text": "text",
+      "start": 0.9125,
+      "end": 1.3125
+    },
+    {
+      "text": "anywhere",
+      "start": 1.3125,
+      "end": 1.7875
+    },
+    {
+      "text": "on",
+      "start": 1.7875,
+      "end": 1.8875
+    },
+    {
+      "text": "your",
+      "start": 1.8875,
+      "end": 2.0
+    },
+    {
+      "text": "screen.",
+      "start": 2.0,
+      "end": 3.0
+    },
+    {
+      "text": "Lilt",
+      "start": 3.0,
+      "end": 3.3375
+    },
+    {
+      "text": "keeps",
+      "start": 3.3375,
+      "end": 3.65
+    },
+    {
+      "text": "the",
+      "start": 3.65,
+      "end": 3.775
+    },
+    {
+      "text": "original",
+      "start": 3.775,
+      "end": 4.2
+    },
+    {
+      "text": "layout",
+      "start": 4.2,
+      "end": 4.7625
+    },
+    {
+      "text": "and",
+      "start": 4.7625,
+      "end": 4.9375
+    },
+    {
+      "text": "reads",
+      "start": 4.9375,
+      "end": 5.2125
+    },
+    {
+      "text": "it",
+      "start": 5.2125,
+      "end": 5.3
+    },
+    {
+      "text": "aloud,",
+      "start": 5.3,
+      "end": 6.0375
+    },
+    {
+      "text": "highlighting",
+      "start": 6.0375,
+      "end": 6.6
+    },
+    {
+      "text": "each",
+      "start": 6.6,
+      "end": 6.875
+    },
+    {
+      "text": "word",
+      "start": 6.875,
+      "end": 7.2
+    },
+    {
+      "text": "as",
+      "start": 7.2,
+      "end": 7.325
+    },
+    {
+      "text": "it",
+      "start": 7.325,
+      "end": 7.425
+    },
+    {
+      "text": "goes.",
+      "start": 7.425,
+      "end": 8.4375
+    },
+    {
+      "text": "Click",
+      "start": 8.4375,
+      "end": 8.6625
+    },
+    {
+      "text": "a",
+      "start": 8.6625,
+      "end": 8.75
+    },
+    {
+      "text": "word",
+      "start": 8.75,
+      "end": 9.025
+    },
+    {
+      "text": "to",
+      "start": 9.025,
+      "end": 9.1625
+    },
+    {
+      "text": "jump",
+      "start": 9.1625,
+      "end": 9.475
+    },
+    {
+      "text": "to",
+      "start": 9.475,
+      "end": 9.575
+    },
+    {
+      "text": "that",
+      "start": 9.575,
+      "end": 9.8
+    },
+    {
+      "text": "part.",
+      "start": 9.8,
+      "end": 10.575
+    },
+    {
+      "text": "The",
+      "start": 10.575,
+      "end": 10.675
+    },
+    {
+      "text": "controls",
+      "start": 10.675,
+      "end": 11.225
+    },
+    {
+      "text": "appear",
+      "start": 11.225,
+      "end": 11.65
+    },
+    {
+      "text": "when",
+      "start": 11.65,
+      "end": 11.8
+    },
+    {
+      "text": "you",
+      "start": 11.8,
+      "end": 11.925
+    },
+    {
+      "text": "move",
+      "start": 11.925,
+      "end": 12.1125
+    },
+    {
+      "text": "your",
+      "start": 12.1125,
+      "end": 12.225
+    },
+    {
+      "text": "pointer",
+      "start": 12.225,
+      "end": 12.65
+    },
+    {
+      "text": "over",
+      "start": 12.65,
+      "end": 12.8625
+    },
+    {
+      "text": "the",
+      "start": 12.8625,
+      "end": 12.95
+    },
+    {
+      "text": "reading,",
+      "start": 12.95,
+      "end": 13.6625
+    },
+    {
+      "text": "and",
+      "start": 13.6625,
+      "end": 13.8
+    },
+    {
+      "text": "disappear",
+      "start": 13.8,
+      "end": 14.4
+    },
+    {
+      "text": "when",
+      "start": 14.4,
+      "end": 14.55
+    },
+    {
+      "text": "you",
+      "start": 14.55,
+      "end": 14.675
+    },
+    {
+      "text": "move",
+      "start": 14.675,
+      "end": 14.9
+    },
+    {
+      "text": "away.",
+      "start": 14.9,
+      "end": 15.725
+    }
+  ]
+}

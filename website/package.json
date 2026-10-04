@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "python3 -m http.server 4179 --directory public",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/demo.test.mjs"
   }
 }
