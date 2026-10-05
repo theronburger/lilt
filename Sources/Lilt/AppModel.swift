@@ -229,14 +229,18 @@ final class AppModel: ObservableObject {
 
     func seek(to seconds: Double, play: Bool? = nil) {
         guard let current, let location = current.location(at: seconds) else { return }
-        let shouldPlay = play ?? wantsPlayback
+        loadChunk(location.index, at: location.seconds, play: play ?? wantsPlayback)
+    }
+
+    private func loadChunk(_ index: Int, at seconds: Double = 0, play: Bool) {
+        guard let current else { return }
         pendingCharacter = nil
-        chunkIndex = location.index
+        chunkIndex = index
         let offset = current.chunks.prefix(chunkIndex).reduce(0) { $0 + $1.durationMs / 1000 }
         do {
             try playback.load(current.chunks[chunkIndex], url: store.audioURL(for: current.chunks[chunkIndex]),
-                              offset: offset, at: location.seconds, play: shouldPlay)
-            wantsPlayback = shouldPlay
+                              offset: offset, at: seconds, play: play)
+            wantsPlayback = play
         } catch { fail(error.localizedDescription) }
     }
 
@@ -392,9 +396,7 @@ final class AppModel: ObservableObject {
     private func advance() {
         guard let current, wantsPlayback else { return }
         if chunkIndex + 1 < current.chunks.count {
-            chunkIndex += 1
-            let offset = current.chunks.prefix(chunkIndex).reduce(0) { $0 + $1.durationMs / 1000 }
-            seek(to: offset, play: true)
+            loadChunk(chunkIndex + 1, play: true)
         } else if isGenerating { status = "Preparing the next part…" }
         else { wantsPlayback = false; status = "All read. Take a breath."; saveCurrent() }
     }

@@ -2,6 +2,25 @@ import XCTest
 @testable import LiltCore
 
 final class ReadingTests: XCTestCase {
+    func testFractionalChunkBoundariesAndWordSeekingSelectTheNextChunk() throws {
+        var reading = Reading(text: "One two three", source: "Test", voice: "af_heart")
+        reading.chunks = [21_125.0, 19_800.0, 15_750.0].enumerated().map { index, duration in
+            SpeechChunk(key: "chunk\(index)", durationMs: duration, words: [
+                WordTiming(charIndex: index * 4, charLength: 3, startMs: 0, endMs: 500)
+            ], charOffset: index * 4)
+        }
+        var boundary = 0.0
+        for index in 1..<reading.chunks.count {
+            boundary += reading.chunks[index - 1].durationMs / 1000
+            XCTAssertEqual(reading.location(at: boundary.nextDown)?.index, index - 1)
+            let location = try XCTUnwrap(reading.location(at: boundary))
+            XCTAssertEqual(location.index, index)
+            XCTAssertEqual(location.seconds, 0)
+            let wordTime = try XCTUnwrap(reading.time(forCharacter: index * 4))
+            XCTAssertEqual(reading.location(at: wordTime)?.index, index)
+        }
+    }
+
     func testSeekingAcrossChunksAndPauses() {
         var reading = Reading(text: "Hello world. Hello again.", source: "Test", voice: "af_heart")
         reading.chunks = [
