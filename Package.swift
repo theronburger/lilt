@@ -7,7 +7,7 @@ let package = Package(
     products: [.executable(name: "Lilt", targets: ["Lilt"])],
     dependencies: [
         .package(url: "https://github.com/sindresorhus/KeyboardShortcuts", exact: "3.1.0"),
-        .package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.9.5")
+        .package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")
     ],
     targets: [
         .target(name: "LiltCore"),
