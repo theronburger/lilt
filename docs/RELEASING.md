@@ -85,7 +85,8 @@ release archive. See [LICENSING.md](LICENSING.md).
 - Swift and Python tests run for pushes and pull requests.
 - Dependabot maintains Swift, Python and Actions dependencies weekly.
 - Dependency review blocks new high-severity vulnerable dependencies in PRs.
-- pip-audit checks the Python lock; CodeQL scans Swift and Python weekly.
+- CI validates Python dependency constraints and pip-audit checks the pins;
+  CodeQL scans Swift and Python weekly.
 - Sparkle verifies signed feeds and archives before extraction. Dev builds do not
   check the production feed.
 - The build verifies nested signatures and checks for accidental signing-identity

@@ -74,13 +74,17 @@ public struct Reading: Codable, Identifiable, Sendable {
 
     public func location(at seconds: Double) -> (index: Int, seconds: Double)? {
         guard !chunks.isEmpty else { return nil }
-        var remaining = max(0, seconds)
+        let position = max(0, seconds)
+        var offset = 0.0
         for (index, chunk) in chunks.enumerated() {
             let duration = chunk.durationMs / 1000
-            if remaining < duration || index == chunks.count - 1 {
-                return (index, min(remaining, duration))
+            let end = offset + duration
+            // Match the accumulated playback clock; repeated subtraction can
+            // round an exact boundary back into the preceding chunk.
+            if position < end || index == chunks.count - 1 {
+                return (index, min(max(0, position - offset), duration))
             }
-            remaining -= duration
+            offset = end
         }
         return nil
     }
