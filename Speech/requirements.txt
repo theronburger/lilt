@@ -65,7 +65,7 @@ rich==15.0.0
 rpds-py==2026.6.3
 safetensors==0.8.0
 segments==2.4.0
-setuptools==84.0.0
+setuptools==84.1.0
 shellingham==1.5.4
 six==1.17.0
 smart-open==8.0.2
